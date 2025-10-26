@@ -1,0 +1,29 @@
+<div class="container">
+  <h1>Lista de Itens (Dados da API)</h1>
+
+  <div *ngIf="isLoading" style="text-align: center; padding: 50px;">
+    <mat-spinner></mat-spinner>
+    <p>Carregando dados...</p>
+  </div>
+
+  <div *ngIf="!isLoading">
+    <ul>
+      <li *ngFor="let item of itensPaginados">
+        {{ item.id }} - {{ item.title }}
+      </li>
+    </ul>
+
+    <p *ngIf="itensPaginados.length === 0">
+      Nenhum item encontrado.
+    </p>
+
+    <mat-paginator 
+        [length]="totalItems"
+        [pageSize]="itemsPerPage"
+        [pageIndex]="currentPage"
+        [pageSizeOptions]="pageSizeOptions"
+        (page)="handlePageEvent($event)"
+        aria-label="Selecionar página">
+    </mat-paginator>
+  </div>
+</div>

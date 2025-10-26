@@ -1,0 +1,41 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Patient {
+  id        String   @id @default(cuid())
+  name      String
+  age       Int
+  createdAt DateTime @default(now())
+  Exams     Exams[]
+}
+
+model Exams {
+  id            String   @id @default(cuid())
+  patientId     String
+  type          DICOM
+  date          DateTime @default(now())
+  idempotentKey String   @unique
+
+  patient      Patient @relation(fields: [patientId], references: [id])
+}
+
+enum DICOM {
+  CR
+  CT
+  DX
+  MG
+  MR
+  NM
+  OT
+  PT
+  RF
+  US
+  XA
+}

@@ -12,6 +12,7 @@ model Patient {
   id        String   @id @default(cuid())
   name      String
   age       Int
+  email     String   @unique
   createdAt DateTime @default(now())
   Exams     Exams[]
 }

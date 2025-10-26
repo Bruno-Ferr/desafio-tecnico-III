@@ -12,7 +12,7 @@ model Patient {
   id        String   @id @default(cuid())
   name      String
   age       Int
-  email     String   @unique
+  cpf       String   @unique
   createdAt DateTime @default(now())
   Exams     Exams[]
 }
@@ -20,11 +20,11 @@ model Patient {
 model Exams {
   id            String   @id @default(cuid())
   patientId     String
-  type          DICOM
+  modality      DICOM
   date          DateTime @default(now())
   idempotentKey String   @unique
 
-  patient      Patient @relation(fields: [patientId], references: [id])
+  patient Patient @relation(fields: [patientId], references: [id])
 }
 
 enum DICOM {

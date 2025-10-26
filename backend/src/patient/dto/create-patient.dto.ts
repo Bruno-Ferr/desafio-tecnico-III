@@ -1,5 +1,5 @@
 export class CreatePatientDto {
   name: string;
-  email: string;
+  cpf: string;
   age: number;
 }

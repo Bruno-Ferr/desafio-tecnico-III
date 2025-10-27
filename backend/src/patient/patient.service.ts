@@ -11,10 +11,12 @@ export class PatientService {
   }
 
   async findAll(page: number, pageSize: number) {
-    return await this.prisma.patient.findMany({
+    const totalCount = await this.prisma.patient.count();
+    const items = await this.prisma.patient.findMany({
       skip: (page - 1) * pageSize,
       take: pageSize,
     });
+    return { items, totalCount };
   }
 
   findOne(id: number) {

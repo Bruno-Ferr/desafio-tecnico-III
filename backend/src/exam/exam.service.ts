@@ -57,11 +57,15 @@ export class ExamsService {
     }
   }
 
-  findAll(pageSize: number, page: number) {
-    return this.prisma.exam.findMany({
+  async findAll(pageSize: number, page: number) {
+    const totalCount = await this.prisma.exam.count();
+
+    const exams = await this.prisma.exam.findMany({
       skip: (page - 1) * pageSize,
       take: pageSize,
     });
+
+    return { items: exams, totalCount };
   }
 
   findOne(id: number) {

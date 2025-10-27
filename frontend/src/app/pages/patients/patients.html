@@ -1,0 +1,19 @@
+<div *ngIf="listType === 'patients'">
+  <h2>Lista de pacientes</h2>
+
+    <app-list-component 
+      [items]="paginatedItems" 
+      [listType]="listType" 
+      [isLoading]="isLoading"
+      [currentPage]="currentPage"
+      [totalItems]="totalItems"
+      [itemsPerPage]="itemsPerPage"
+      (pageChange)="handlePageEvent($event)"
+    >
+    <ng-template let-patient>
+      <a class="patient-card" routerLink="/exames/{{patient.id}}">
+        <p><strong>{{ patient.name }}</strong> - {{ patient.age }}</p>
+      </a>
+    </ng-template>
+  </app-list-component>
+</div>

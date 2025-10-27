@@ -1,0 +1,21 @@
+<div>
+  <button (click)="voltar()">Voltar</button>
+  <h2>Lista de exames</h2>
+
+  <app-list-component 
+    [items]="exams" 
+    [listType]="'exams'" 
+    [isLoading]="isLoading"
+    [currentPage]="currentPage"
+    [totalItems]="totalItems"
+    [itemsPerPage]="itemsPerPage"
+    (pageChange)="handlePageEvent($event)"
+  >
+    <ng-template let-exam>
+      <div class="exam-card">
+        <strong>{{ exam.title }}</strong>
+        <p>{{ exam.date }}</p>
+      </div>
+    </ng-template>
+  </app-list-component>
+</div>

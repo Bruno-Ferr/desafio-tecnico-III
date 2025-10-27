@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { ApiResponse, PatientData } from '../services/patient-data';
+import { ApiResponse, PatientData } from '../../services/patient-data';
 import { CommonModule } from '@angular/common';
-import { ListComponent } from "../list-component/list-component";
+import { ListComponent } from "../../list-component/list-component";
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-patients',
-  imports: [MatPaginatorModule, MatProgressSpinnerModule, CommonModule, ListComponent],
+  imports: [MatPaginatorModule, MatProgressSpinnerModule, CommonModule, ListComponent, RouterModule],
   templateUrl: './patients.html',
   styleUrl: './patients.css',
 })
@@ -24,10 +25,10 @@ export class Patients implements OnInit {
   pageSizeOptions: number[] = [5, 10, 15];
 
   ngOnInit(): void {
-    this.loadData();
+    this.loadPatientData();
   }
 
-  loadData(): void {
+  loadPatientData(): void {
     this.isLoading = true;
     this.patientService.getItens(this.currentPage, this.itemsPerPage).subscribe({
       next: (response: ApiResponse) => {
@@ -45,6 +46,6 @@ export class Patients implements OnInit {
   handlePageEvent(event: PageEvent) {
     this.currentPage = event.pageIndex;
     this.itemsPerPage = event.pageSize;
-    this.loadData();
+    this.loadPatientData();
   }
 }

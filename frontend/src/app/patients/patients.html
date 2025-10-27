@@ -1,29 +1,51 @@
-<div class="container">
-  <h1>Lista de pacientes</h1>
+<div>
+  <button (click)="listType = 'patients'" [class.active]="listType === 'patients'">
+    Listar pacientes
+  </button>
+  <button (click)="listType = 'exams'" [class.active]="listType === 'exams'">
+    Listar exames
+  </button>
+</div>
 
-  <div *ngIf="isLoading" style="text-align: center; padding: 50px;">
-    <mat-spinner></mat-spinner>
-    <p>Carregando dados...</p>
-  </div>
+<hr>
 
-  <div *ngIf="!isLoading">
-    <ul>
-      <li *ngFor="let item of paginatedItems">
-        {{ item.id }} - {{ item.name }}
-      </li>
-    </ul>
+<div *ngIf="listType === 'patients'">
+  <h2>Lista de pacientes</h2>
 
-    <p *ngIf="paginatedItems.length === 0">
-      Nenhum paciente encontrado.
-    </p>
+    <app-list-component 
+      [items]="paginatedItems" 
+      [listType]="listType" 
+      [isLoading]="isLoading"
+      [currentPage]="currentPage"
+      [totalItems]="totalItems"
+      [itemsPerPage]="itemsPerPage"
+      (pageChange)="handlePageEvent($event)"
+    >
+    <ng-template let-patient>
+      <div class="patient-card">
+        <p><strong>{{ patient.name }}</strong> - {{ patient.age }}</p>
+      </div>
+    </ng-template>
+  </app-list-component>
+</div>
 
-    <mat-paginator 
-        [length]="totalItems"
-        [pageSize]="itemsPerPage"
-        [pageIndex]="currentPage"
-        [pageSizeOptions]="pageSizeOptions"
-        (page)="handlePageEvent($event)"
-        aria-label="Selecionar página">
-    </mat-paginator>
-  </div>
+<div *ngIf="listType === 'exams'">
+  <h2>Lista de exames</h2>
+
+  <app-list-component 
+    [items]="paginatedItems" 
+    [listType]="listType" 
+    [isLoading]="isLoading"
+    [currentPage]="currentPage"
+    [totalItems]="totalItems"
+    [itemsPerPage]="itemsPerPage"
+    (pageChange)="handlePageEvent($event)"
+  >
+    <ng-template let-exam>
+      <div class="exam-card">
+        <strong>{{ exam.title }}</strong>
+        <p>{{ exam.date }}</p>
+      </div>
+    </ng-template>
+  </app-list-component>
 </div>

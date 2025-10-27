@@ -3,23 +3,25 @@ import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ApiResponse, PatientData } from '../services/patient-data';
 import { CommonModule } from '@angular/common';
+import { ListComponent } from "../list-component/list-component";
 
 @Component({
   selector: 'app-patients',
-  imports: [MatPaginatorModule, MatProgressSpinnerModule, CommonModule],
+  imports: [MatPaginatorModule, MatProgressSpinnerModule, CommonModule, ListComponent],
   templateUrl: './patients.html',
   styleUrl: './patients.css',
 })
 export class Patients implements OnInit {
-  constructor(private dataService: PatientData) {}
+  constructor(private patientService: PatientData) {}
 
   paginatedItems: any[] = [];
+  listType: 'patients' | 'exams' = 'patients';
   isLoading = true; 
 
   totalItems: number = 0;
   itemsPerPage: number = 10;
-  currentPage: number = 0;
-  pageSizeOptions: number[] = [5, 10, 25, 50];
+  currentPage: number = 1;
+  pageSizeOptions: number[] = [5, 10, 15];
 
   ngOnInit(): void {
     this.loadData();
@@ -27,7 +29,7 @@ export class Patients implements OnInit {
 
   loadData(): void {
     this.isLoading = true;
-    this.dataService.getItens(this.currentPage, this.itemsPerPage).subscribe({
+    this.patientService.getItens(this.currentPage, this.itemsPerPage).subscribe({
       next: (response: ApiResponse) => {
         this.paginatedItems = response.items;
         this.totalItems = response.totalCount;

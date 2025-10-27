@@ -1,0 +1,29 @@
+<div class="container">
+  <div *ngIf="isLoading" style="text-align: center; padding: 50px;">
+    <mat-spinner></mat-spinner>
+    <p>Carregando dados...</p>
+  </div>
+
+
+  <div *ngIf="!isLoading">
+    <ul>
+      <li *ngFor="let item of items">
+        <ng-container [ngTemplateOutlet]="itemTemplate" [ngTemplateOutletContext]="{ $implicit: item }">
+      </ng-container>
+      </li>
+    </ul>
+
+    <p *ngIf="items.length === 0">
+      Nenhum {{listType === 'patients' ? 'paciente' : 'exame'}} encontrado.
+    </p>
+
+    <mat-paginator 
+        [length]="totalItems"
+        [pageSize]="itemsPerPage"
+        [pageIndex]="currentPage"
+        [pageSizeOptions]="pageSizeOptions"
+        (page)="handlePageEvent($event)"
+    >
+    </mat-paginator>
+  </div>
+</div>

@@ -21,16 +21,17 @@ export class PatientData {
     const limitApi = pageSize.toString();
 
     const params = new HttpParams()
-      .set('_page', pageApi)
-      .set('_pageSize', limitApi);
+      .set('page', pageApi)
+      .set('pageSize', limitApi);
 
-    return this.http.get<any[]>(this.apiUrl, { 
+    return this.http.get<ApiResponse>(this.apiUrl, { 
       params: params,
       observe: 'response' 
     }).pipe(
       map(response => {
-        const totalCount = Number(response.headers.get('x-total-count'));
-        const items = response.body || [];
+        console.log(response.body)
+        const totalCount = response.body?.totalCount || 0;
+        const items = response.body?.items || [];
         
         return { items, totalCount };
       })

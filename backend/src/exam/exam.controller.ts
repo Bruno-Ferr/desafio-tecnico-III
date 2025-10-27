@@ -8,12 +8,12 @@ import {
   Headers,
   BadRequestException,
 } from '@nestjs/common';
-import { ExamsService } from './exam.service';
+import { ExamService } from './exam.service';
 import { CreateExamDto } from './dto/create-exam.dto';
 
 @Controller('exames')
-export class ExamsController {
-  constructor(private readonly examsService: ExamsService) {}
+export class ExamController {
+  constructor(private readonly examService: ExamService) {}
 
   @Post()
   create(
@@ -26,16 +26,16 @@ export class ExamsController {
       );
     }
 
-    return this.examsService.create(createExamDto, idempotencyKey);
+    return this.examService.create(createExamDto, idempotencyKey);
   }
 
   @Get()
   findAll(@Query('page') page = 1, @Query('pageSize') pageSize = 10) {
-    return this.examsService.findAll(pageSize, page);
+    return this.examService.findAll(page, Number(pageSize));
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.examsService.findOne(+id);
+    return this.examService.findOne(+id);
   }
 }

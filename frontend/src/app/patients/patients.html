@@ -1,5 +1,5 @@
 <div class="container">
-  <h1>Lista de Itens (Dados da API)</h1>
+  <h1>Lista de pacientes</h1>
 
   <div *ngIf="isLoading" style="text-align: center; padding: 50px;">
     <mat-spinner></mat-spinner>
@@ -8,13 +8,13 @@
 
   <div *ngIf="!isLoading">
     <ul>
-      <li *ngFor="let item of itensPaginados">
-        {{ item.id }} - {{ item.title }}
+      <li *ngFor="let item of paginatedItems">
+        {{ item.id }} - {{ item.name }}
       </li>
     </ul>
 
-    <p *ngIf="itensPaginados.length === 0">
-      Nenhum item encontrado.
+    <p *ngIf="paginatedItems.length === 0">
+      Nenhum paciente encontrado.
     </p>
 
     <mat-paginator 

@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ApiResponse, PatientData } from '../services/patient-data';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-patients',
-  imports: [MatPaginatorModule, MatProgressSpinnerModule],
+  imports: [MatPaginatorModule, MatProgressSpinnerModule, CommonModule],
   templateUrl: './patients.html',
   styleUrl: './patients.css',
 })

@@ -13,7 +13,7 @@ export class PatientController {
 
   @Get()
   findAll(@Query('page') page = 1, @Query('pageSize') pageSize = 10) {
-    return this.patientService.findAll(page, pageSize);
+    return this.patientService.findAll(page, Number(pageSize));
   }
 
   @Get(':id')

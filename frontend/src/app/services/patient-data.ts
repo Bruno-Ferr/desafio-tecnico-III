@@ -22,7 +22,7 @@ export class PatientData {
 
     const params = new HttpParams()
       .set('_page', pageApi)
-      .set('_limit', limitApi);
+      .set('_pageSize', limitApi);
 
     return this.http.get<any[]>(this.apiUrl, { 
       params: params,

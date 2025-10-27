@@ -1,6 +1,6 @@
 export class CreateExamDto {
   patientId: string;
-  type: DICOM;
+  modality: any;
   date: Date;
 }
 

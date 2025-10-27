@@ -4,7 +4,7 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 
 @Injectable()
-export class ExamsService {
+export class ExamService {
   constructor(private readonly prisma: PrismaService) {}
 
   async create(createExamDto: CreateExamDto, idempotencyKey: string) {
@@ -22,7 +22,7 @@ export class ExamsService {
       );
     }
 
-    const existingExam = await this.prisma.exam.findUnique({
+    const existingExam = await this.prisma.exams.findUnique({
       where: { idempotencyKey: idempotencyKey },
     });
 
@@ -31,7 +31,7 @@ export class ExamsService {
     }
 
     try {
-      const newExam = await this.prisma.exam.create({
+      const newExam = await this.prisma.exams.create({
         data: {
           ...createExamDto,
           idempotencyKey: idempotencyKey,
@@ -47,7 +47,7 @@ export class ExamsService {
           'Race condition de idempotência detectada. Re-buscando exame...',
         );
 
-        const examCreatedByRace = await this.prisma.exam.findUnique({
+        const examCreatedByRace = await this.prisma.exams.findUnique({
           where: { idempotencyKey: idempotencyKey },
         });
 
@@ -57,10 +57,10 @@ export class ExamsService {
     }
   }
 
-  async findAll(pageSize: number, page: number) {
-    const totalCount = await this.prisma.exam.count();
+  async findAll(page: number, pageSize: number) {
+    const totalCount = await this.prisma.exams.count();
 
-    const exams = await this.prisma.exam.findMany({
+    const exams = await this.prisma.exams.findMany({
       skip: (page - 1) * pageSize,
       take: pageSize,
     });

@@ -1,6 +1,5 @@
 generator client {
-  provider = "prisma-client"
-  output   = "../generated/prisma"
+  provider = "prisma-client-js"
 }
 
 datasource db {
@@ -22,7 +21,7 @@ model Exams {
   patientId     String
   modality      DICOM
   date          DateTime @default(now())
-  idempotentKey String   @unique
+  idempotencyKey String   @unique
 
   patient Patient @relation(fields: [patientId], references: [id])
 }

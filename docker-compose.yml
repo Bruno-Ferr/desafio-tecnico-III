@@ -1,0 +1,70 @@
+version: '3.8'
+
+services:
+  # Banco de Dados MySQL
+  database:
+    image: mysql:8.0
+    container_name: mobilemed-db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: mobilemed_db
+      MYSQL_USER: mobilemed_user
+      MYSQL_PASSWORD: mobilemed_pass
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - mobilemed-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-prootpassword"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Backend API
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: mobilemed-backend
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: "mysql://mobilemed_user:mobilemed_pass@database:3306/mobilemed_db"
+      NODE_ENV: production
+      PORT: 3000
+    ports:
+      - "3000:3000"
+    depends_on:
+      database:
+        condition: service_healthy
+    networks:
+      - mobilemed-network
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3000"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Frontend Angular
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: mobilemed-frontend
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - mobilemed-network
+
+volumes:
+  mysql_data:
+    driver: local
+
+networks:
+  mobilemed-network:
+    driver: bridge

@@ -7,17 +7,11 @@ export interface ApiResponse {
   totalCount: number;
 }
 
-export interface CreatePatientRequest {
-  name: string;
-  cpf: string;
-  age: number;
-}
-
 @Injectable({
   providedIn: 'root'
 })
-export class PatientData {
-  private apiUrl = 'http://localhost:3000/pacientes';
+export class ExamData {
+  private apiUrl = 'http://localhost:3000/exames';
 
   constructor(private http: HttpClient) { }
 
@@ -41,9 +35,5 @@ export class PatientData {
         return { items, totalCount };
       })
     );
-  }
-
-  createPatient(patient: CreatePatientRequest): Observable<any> {
-    return this.http.post(this.apiUrl, patient);
   }
 }

@@ -74,8 +74,15 @@ export class Patients implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        // If dialog was closed with a result, reload the patient list
-        this.loadPatientData();
+        this.patientService.createPatient(result).subscribe({
+          next: (response) => {
+            console.log('Paciente criado com sucesso:', response);
+            this.loadPatientData();
+          },
+          error: (error) => {
+            console.error('Erro ao criar paciente:', error);
+          }
+        });
       }
     });
   }

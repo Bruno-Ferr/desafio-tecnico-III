@@ -1,16 +1,17 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ApiResponse, PatientData } from '../../services/patient-data';
+import { ApiResponse } from '../../services/patient-data';
 import { ListComponent } from '../../components/list-component/list-component';
 import { PageEvent } from '@angular/material/paginator';
-import { Location } from '@angular/common';
+import { Location, DatePipe } from '@angular/common';
 import { ExamDialog } from '../../components/exam-dialog/exam-dialog';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
+import { ExamData } from '../../services/exam-data';
 
 @Component({
   selector: 'app-exams',
-  imports: [ListComponent, MatDialogModule, MatButtonModule],
+  imports: [ListComponent, MatDialogModule, MatButtonModule, DatePipe],
   templateUrl: './exams.html',
   styleUrl: './exams.css',
 })
@@ -29,27 +30,21 @@ export class Exams {
     private route: ActivatedRoute,
     private router: Router,
     private location: Location,
-    private examsService: PatientData,
+    private examsService: ExamData,
     private dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
-    // Pega o ID da URL
     this.pacienteId = this.route.snapshot.paramMap.get('id');
     
-    // Tenta pegar as informações do paciente do state da navegação
     const navigation = this.router.getCurrentNavigation();
     if (navigation?.extras.state) {
       this.patientInfo = navigation.extras.state['patient'];
     }
-    
-    // Se não houver no navigation, tenta no history.state
+
     if (!this.patientInfo && history.state && history.state.patient) {
       this.patientInfo = history.state.patient;
     }
-    
-    console.log('Paciente ID:', this.pacienteId);
-    console.log('Patient Info:', this.patientInfo);
     
     if (this.pacienteId) {
       this.loadExamsData(this.pacienteId);

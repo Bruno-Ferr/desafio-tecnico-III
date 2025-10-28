@@ -4,9 +4,9 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { CustomInput } from '../../components/custom-input/custom-input';
 
 export interface Paciente {
-  nome: string;
+  name: string;
   cpf: string;
-  // ...outros campos
+  age: number;
 }
 
 @Component({
@@ -23,7 +23,8 @@ export class PacientForm {
   @Input() initialPatient!: Paciente; 
   
   // Envia os dados do formulário quando for válido
-  @Output() save = new EventEmitter<Paciente>(); 
+  @Output() save = new EventEmitter<Paciente>();
+  @Output() cancel = new EventEmitter<void>();
 
   patienteForm!: FormGroup;
   
@@ -31,8 +32,9 @@ export class PacientForm {
 
   ngOnInit() {
     this.patienteForm = this.fb.group({
-      nome: ['', Validators.required],
-      cpf: ['', Validators.required]
+      name: ['', Validators.required],
+      cpf: ['', Validators.required],
+      age: ['', Validators.required],
     });
 
     if (this.initialPatient) {
@@ -46,5 +48,9 @@ export class PacientForm {
       return;
     }
     this.save.emit(this.patienteForm.value);
+  }
+
+  onCancel() {
+    this.cancel.emit();
   }
 }

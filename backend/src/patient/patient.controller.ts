@@ -8,7 +8,8 @@ export class PatientController {
 
   @Post()
   create(@Body() createPatientDto: CreatePatientDto) {
-    return this.patientService.create(createPatientDto);
+    console.log('Received patient data:', createPatientDto);
+    //return this.patientService.create(createPatientDto);
   }
 
   @Get()

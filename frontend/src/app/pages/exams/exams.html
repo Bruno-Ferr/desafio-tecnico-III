@@ -31,8 +31,7 @@
   >
     <ng-template let-exam>
       <div class="exam-card">
-        <strong>{{ exam.title }}</strong>
-        <p>{{ exam.date }}</p>
+        <p><strong>{{ exam.modality }}</strong> — {{ exam.date | date:'dd/MM/yyyy - HH:mm' }}</p>
       </div>
     </ng-template>
   </app-list-component>

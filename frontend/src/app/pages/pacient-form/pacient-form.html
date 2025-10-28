@@ -1,14 +1,14 @@
 <form
   titulo="Dados do Paciente"
   [formGroup]="patienteForm" 
-  (onSubmit)="onSubmit()">
+  (ngSubmit)="onSubmit()">
 
   <h2>Dados do Paciente</h2>
 
   <app-custom-input
     label="Nome"
     [form]="patienteForm"
-    controlName="nome">
+    controlName="name">
   </app-custom-input>
 
   <app-custom-input
@@ -20,10 +20,11 @@
   <app-custom-input
     label="idade"
     [form]="patienteForm"
-    controlName="idade">
+    controlName="age">
   </app-custom-input>
   
   <div class="form-actions">
+    <button type="button" (click)="onCancel()">Cancelar</button>
     <button type="submit" [disabled]="patienteForm.invalid">
       Salvar
     </button>

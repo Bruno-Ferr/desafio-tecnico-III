@@ -18,6 +18,7 @@ import { Paciente } from '../../pages/pacient-form/pacient-form';
     <mat-dialog-content>
       <app-pacient-form 
         (save)="onSave($event)"
+        (cancel)="onClose()"
       >
       </app-pacient-form>
     </mat-dialog-content>

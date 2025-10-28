@@ -1,0 +1,15 @@
+<div class="form-container">
+  <h2>{{ title }}</h2>
+  
+  <form (ngSubmit)="onSubmit.emit()" [formGroup]="form">
+    
+    <ng-content></ng-content>
+
+    <div class="form-actions">
+      <button type="button" (click)="onCancel.emit()">Cancelar</button>
+      <button type="submit" [disabled]="form.invalid || loading">
+        {{ loading ? 'Salvando...' : 'Salvar' }}
+      </button>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,31 @@
+<div class="form-field-container" [formGroup]="form">
+
+  <label [for]="controlName">{{ label }}</label>
+  
+  <input 
+    [id]="controlName"
+    [type]="type"
+    [formControlName]="controlName"
+    [class.input-error]="showError"> 
+
+    <div *ngIf="showError" class="error-messages">
+    
+      <small *ngIf="control?.errors?.['required']">
+        O campo {{ label.toLowerCase() }} é obrigatório.
+      </small>
+      
+      <small *ngIf="control?.errors?.['email']">
+        Por favor, insira um e-mail válido.
+      </small>
+      
+      <small *ngIf="control?.errors?.['minlength']">
+        Deve ter no mínimo {{ control?.errors?.['minlength']?.requiredLength }} caracteres.
+      </small>
+
+      <small *ngIf="control?.errors?.['pattern']">
+        Formato inválido.
+      </small>
+
+    </div>
+
+</div>

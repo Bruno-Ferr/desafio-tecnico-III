@@ -1,19 +1,36 @@
 import { Component, OnInit } from '@angular/core';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { ApiResponse, PatientData } from '../../services/patient-data';
+
 import { CommonModule } from '@angular/common';
-import { ListComponent } from "../../list-component/list-component";
+
 import { RouterModule } from '@angular/router';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
+import { ListComponent } from '../../components/list-component/list-component';
+import { PatientDialog } from '../../components/patient-dialog/patient-dialog';
+import { ApiResponse, PatientData } from '../../services/patient-data';
 
 @Component({
   selector: 'app-patients',
-  imports: [MatPaginatorModule, MatProgressSpinnerModule, CommonModule, ListComponent, RouterModule],
+  standalone: true,
+  imports: [
+    MatPaginatorModule, 
+    MatProgressSpinnerModule, 
+    CommonModule, 
+    ListComponent, 
+    RouterModule,
+    MatDialogModule,
+    MatButtonModule
+  ],
   templateUrl: './patients.html',
   styleUrl: './patients.css',
 })
 export class Patients implements OnInit {
-  constructor(private patientService: PatientData) {}
+  constructor(
+    private patientService: PatientData,
+    private dialog: MatDialog
+  ) {}
 
   paginatedItems: any[] = [];
   listType: 'patients' | 'exams' = 'patients';
@@ -47,5 +64,18 @@ export class Patients implements OnInit {
     this.currentPage = event.pageIndex;
     this.itemsPerPage = event.pageSize;
     this.loadPatientData();
+  }
+
+  openNewPatientDialog() {
+    const dialogRef = this.dialog.open(PatientDialog, {
+      width: '500px',
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        // If dialog was closed with a result, reload the patient list
+        this.loadPatientData();
+      }
+    });
   }
 }

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ApiResponse, PatientData } from '../../services/patient-data';
-import { ListComponent } from '../../list-component/list-component';
+import { ListComponent } from '../../components/list-component/list-component';
 import { PageEvent } from '@angular/material/paginator';
 import { Location } from '@angular/common';
 

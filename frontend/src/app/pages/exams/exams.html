@@ -2,6 +2,10 @@
   <button (click)="voltar()">Voltar</button>
   <h2>Lista de exames</h2>
 
+  <button mat-raised-button color="primary" (click)="openNewExamDialog()">
+    Novo Exame
+  </button>
+
   <app-list-component 
     [items]="exams" 
     [listType]="'exams'" 

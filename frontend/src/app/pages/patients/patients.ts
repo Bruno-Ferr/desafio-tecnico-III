@@ -8,8 +8,9 @@ import { RouterModule } from '@angular/router';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { ListComponent } from '../../components/list-component/list-component';
-import { PatientDialog } from '../../components/patient-dialog/patient-dialog';
+
 import { ApiResponse, PatientData } from '../../services/patient-data';
+import { PatientDialog } from '../../components/patient-dialog/patient-dialog';
 
 @Component({
   selector: 'app-patients',

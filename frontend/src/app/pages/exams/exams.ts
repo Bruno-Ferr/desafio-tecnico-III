@@ -4,6 +4,8 @@ import { ApiResponse, PatientData } from '../../services/patient-data';
 import { ListComponent } from '../../components/list-component/list-component';
 import { PageEvent } from '@angular/material/paginator';
 import { Location } from '@angular/common';
+import { ExamDialog } from '../../components/exam-dialog/exam-dialog';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-exams',
@@ -24,7 +26,8 @@ export class Exams {
   constructor(
     private route: ActivatedRoute,
     private location: Location,
-    private examsService: PatientData
+    private examsService: PatientData,
+    private dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
@@ -56,6 +59,19 @@ export class Exams {
     if (this.pacienteId) {
       this.loadExamsData(this.pacienteId);
     }
+  }
+
+  openNewExamDialog() {
+    const dialogRef = this.dialog.open(ExamDialog, {
+      width: '500px',
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        // If dialog was closed with a result, reload the exam list
+        this.loadExamsData(this.pacienteId!);
+      }
+    });
   }
 
   voltar(): void {

@@ -1,1 +1,26 @@
-<p>exams-form works!</p>
+<form
+  titulo="Dados do Exame"
+  [formGroup]="examForm" 
+  (onSubmit)="onSubmit()">
+
+  <h2>Dados do Exame</h2>
+
+  <app-custom-input
+    label="Id do Paciente"
+    [form]="examForm"
+    controlName="patientId">
+  </app-custom-input>
+
+  <app-custom-input
+    label="modalidade"
+    [form]="examForm"
+    controlName="modality">
+  </app-custom-input>
+  
+  <div class="form-actions">
+    <button type="button" (click)="onCancel()">Cancelar</button>
+    <button type="submit" [disabled]="examForm.invalid">
+      Salvar
+    </button>
+  </div>
+</form>

@@ -6,11 +6,13 @@ services:
     image: mysql:8.0
     container_name: mobilemed-db
     restart: unless-stopped
+    command: --default-authentication-plugin=mysql_native_password
     environment:
       MYSQL_ROOT_PASSWORD: rootpassword
       MYSQL_DATABASE: mobilemed_db
       MYSQL_USER: mobilemed_user
       MYSQL_PASSWORD: mobilemed_pass
+      MYSQL_ROOT_HOST: "%"
     ports:
       - "3306:3306"
     volumes:

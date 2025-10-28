@@ -13,7 +13,7 @@
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
     "lint": "echo \"ESLint disabled\"",
-    "seed": "ts-node prisma/seed.ts",
+    "seed": "tsx prisma/seed.ts",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",

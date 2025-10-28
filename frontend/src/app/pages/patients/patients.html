@@ -16,7 +16,7 @@
     (pageChange)="handlePageEvent($event)"
   >
     <ng-template let-patient>
-      <a class="patient-card" routerLink="/exames/{{patient.id}}">
+      <a class="patient-card" [routerLink]="['/exames', patient.id]" [state]="{ patient: patient }">
         <p><strong>{{ patient.name }}</strong> - {{ patient.age }}</p>
       </a>
     </ng-template>

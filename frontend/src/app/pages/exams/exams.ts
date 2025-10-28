@@ -1,20 +1,22 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ApiResponse, PatientData } from '../../services/patient-data';
 import { ListComponent } from '../../components/list-component/list-component';
 import { PageEvent } from '@angular/material/paginator';
 import { Location } from '@angular/common';
 import { ExamDialog } from '../../components/exam-dialog/exam-dialog';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-exams',
-  imports: [ListComponent],
+  imports: [ListComponent, MatDialogModule, MatButtonModule],
   templateUrl: './exams.html',
   styleUrl: './exams.css',
 })
 export class Exams {
   pacienteId: string | null = null;
+  patientInfo: any = null; // Informações do paciente
 
   exams: any[] = [];
   isLoading = true; 
@@ -25,14 +27,30 @@ export class Exams {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private location: Location,
     private examsService: PatientData,
     private dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
+    // Pega o ID da URL
     this.pacienteId = this.route.snapshot.paramMap.get('id');
-  
+    
+    // Tenta pegar as informações do paciente do state da navegação
+    const navigation = this.router.getCurrentNavigation();
+    if (navigation?.extras.state) {
+      this.patientInfo = navigation.extras.state['patient'];
+    }
+    
+    // Se não houver no navigation, tenta no history.state
+    if (!this.patientInfo && history.state && history.state.patient) {
+      this.patientInfo = history.state.patient;
+    }
+    
+    console.log('Paciente ID:', this.pacienteId);
+    console.log('Patient Info:', this.patientInfo);
+    
     if (this.pacienteId) {
       this.loadExamsData(this.pacienteId);
     }
@@ -62,13 +80,23 @@ export class Exams {
   }
 
   openNewExamDialog() {
+    console.log('Opening dialog with patient ID:', this.pacienteId);
+    
+    if (!this.pacienteId) {
+      console.error('Cannot open exam dialog: patient ID is null');
+      return;
+    }
+    
+    const dataToPass = { patientId: this.pacienteId };
+    console.log('Data being passed to dialog:', dataToPass);
+    
     const dialogRef = this.dialog.open(ExamDialog, {
       width: '500px',
+      data: dataToPass
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        // If dialog was closed with a result, reload the exam list
         this.loadExamsData(this.pacienteId!);
       }
     });

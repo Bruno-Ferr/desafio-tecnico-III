@@ -1,10 +1,24 @@
-<div>
-  <button (click)="voltar()">Voltar</button>
-  <h2>Lista de exames</h2>
-
-  <button mat-raised-button color="primary" (click)="openNewExamDialog()">
-    Novo Exame
-  </button>
+<div class="container">
+  <button class="backButton" (click)="voltar()">Voltar</button>
+  
+  <!-- Informações do Paciente -->
+  @if (patientInfo) {
+    <div class="patient-info">
+      <h2>{{ patientInfo.name }}</h2>
+      <div class="patient-details">
+        <span><strong>CPF:</strong> {{ patientInfo.cpf }}</span>
+        <span><strong>Idade:</strong> {{ patientInfo.age }} anos</span>
+      </div>
+    </div>
+  }
+  
+  <div class="header">
+    <h1>Lista de exames</h1>
+  
+    <button mat-raised-button color="primary" (click)="openNewExamDialog()">
+      Novo Exame
+    </button>
+  </div>
 
   <app-list-component 
     [items]="exams" 

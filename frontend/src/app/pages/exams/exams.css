@@ -1,0 +1,128 @@
+.container {
+  max-width: 1400px;
+  max-height: 100vh;
+  margin: 0 auto;
+  padding: 32px 24px;
+}
+
+.backButton {
+  margin-bottom: 16px;
+  padding: 4px 8px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background-color: #e0e0e0;
+  color: #666;
+}
+
+.backButton:hover {
+  background-color: #d0d0d0;
+  transform: translateY(-1px);
+}
+
+/* Patient Info Card */
+.patient-info {
+  background: white;
+  padding: 24px 32px;
+  margin-bottom: 24px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-left: 4px solid #667eea;
+}
+
+.patient-info h2 {
+  margin: 0 0 16px 0;
+  font-size: 28px;
+  font-weight: 600;
+  color: #333;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.patient-details {
+  display: flex;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+
+.patient-details span {
+  font-size: 16px;
+  color: #666;
+}
+
+.patient-details strong {
+  color: #333;
+  margin-right: 8px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 32px;
+  border-bottom: 2px solid #ddddddff;
+}
+
+h1 {
+  margin: 0;
+  font-weight: 600;
+  color: #333;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+button[mat-raised-button] {
+  font-weight: 500;
+  padding: 0 24px;
+  height: 42px;
+  border-radius: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+}
+
+button[mat-raised-button]:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(63, 81, 181, 0.3);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .container {
+    padding: 16px;
+  }
+
+  .patient-info {
+    padding: 16px;
+  }
+
+  .patient-info h2 {
+    font-size: 22px;
+  }
+
+  .patient-details {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .header {
+    flex-direction: column;
+    gap: 16px;
+    padding: 20px;
+  }
+
+  h1 {
+    font-size: 24px;
+  }
+
+  button[mat-raised-button] {
+    width: 100%;
+  }
+}

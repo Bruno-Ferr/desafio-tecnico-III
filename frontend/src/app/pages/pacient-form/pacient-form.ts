@@ -24,7 +24,6 @@ export class PacientForm {
   
   // Envia os dados do formulário quando for válido
   @Output() save = new EventEmitter<Paciente>(); 
-  @Output() cancel = new EventEmitter<void>();
 
   patienteForm!: FormGroup;
   
@@ -47,9 +46,5 @@ export class PacientForm {
       return;
     }
     this.save.emit(this.patienteForm.value);
-  }
-
-  onCancel() {
-    this.cancel.emit();
   }
 }

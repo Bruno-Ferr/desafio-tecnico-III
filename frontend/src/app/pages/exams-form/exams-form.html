@@ -6,9 +6,10 @@
   <h2>Dados do Exame</h2>
 
   <app-custom-input
-    label="Id do Paciente"
+    label="ID do Paciente"
     [form]="examForm"
-    controlName="patientId">
+    controlName="patientId"
+    [readonly]="true">
   </app-custom-input>
 
   <app-custom-input
@@ -18,7 +19,6 @@
   </app-custom-input>
   
   <div class="form-actions">
-    <button type="button" (click)="onCancel()">Cancelar</button>
     <button type="submit" [disabled]="examForm.invalid">
       Salvar
     </button>

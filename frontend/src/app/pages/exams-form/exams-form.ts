@@ -20,10 +20,11 @@ export interface Exam {
   styleUrl: './exams-form.css',
 })
 export class ExamsForm {
-  @Input() initialExam!: Exam; 
+  @Input() initialExam!: Exam;
+  @Input() patientId!: string;
   
   // Envia os dados do formulário quando for válido
-  @Output() save = new EventEmitter<Exam>(); 
+  @Output() save = new EventEmitter<Exam>();
   @Output() cancel = new EventEmitter<void>();
 
   examForm!: FormGroup;
@@ -31,7 +32,9 @@ export class ExamsForm {
   constructor(private fb: FormBuilder) {}
 
   ngOnInit() {
+    console.log('Received patientId:', this.patientId);
     this.examForm = this.fb.group({
+      patientId: [this.patientId || '', Validators.required], // Preenche automaticamente com o ID do paciente
       nome: ['', Validators.required],
       cpf: ['', Validators.required]
     });

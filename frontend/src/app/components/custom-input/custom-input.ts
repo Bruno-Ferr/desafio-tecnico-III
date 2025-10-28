@@ -14,6 +14,7 @@ export class CustomInput {
   @Input() controlName!: string
   @Input() label!: string;
   @Input() type: string = 'text';
+  @Input() readonly: boolean = false;
 
   constructor() { }
 

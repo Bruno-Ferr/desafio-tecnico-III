@@ -1,10 +1,16 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, map } from 'rxjs';
+import { Observable, map, retry, timer } from 'rxjs';
 
 export interface ApiResponse {
   items: any[];
   totalCount: number;
+}
+
+export interface CreateExamRequest {
+  patientId: string;
+  modality: string;
+  date: string;
 }
 
 @Injectable({
@@ -33,6 +39,21 @@ export class ExamData {
         const items = response.body?.items || [];
         
         return { items, totalCount };
+      })
+    );
+  }
+
+  createExam(exam: CreateExamRequest, idempotencyKey: string): Observable<any> {
+    return this.http.post(this.apiUrl, exam, {
+      headers: { 'X-Idempotency-Key': idempotencyKey }
+    }).pipe(
+      retry({
+        count: 3,
+        delay: (error, retryCount) => {
+          const delayMs = Math.pow(2, retryCount - 1) * 1000;
+          console.log(`Tentativa ${retryCount} falhou. Tentando novamente em ${delayMs}ms...`);
+          return timer(delayMs);
+        }
       })
     );
   }

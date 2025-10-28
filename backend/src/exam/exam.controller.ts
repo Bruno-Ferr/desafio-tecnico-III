@@ -25,8 +25,8 @@ export class ExamController {
         'O cabeçalho X-Idempotency-Key é obrigatório.',
       );
     }
-
-    return this.examService.create(createExamDto, idempotencyKey);
+    console.log('Data:', createExamDto);
+    //return this.examService.create(createExamDto, idempotencyKey);
   }
 
   @Get()

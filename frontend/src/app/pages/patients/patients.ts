@@ -11,6 +11,7 @@ import { ListComponent } from '../../components/list-component/list-component';
 
 import { ApiResponse, PatientData } from '../../services/patient-data';
 import { PatientDialog } from '../../components/patient-dialog/patient-dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-patients',
@@ -30,7 +31,8 @@ import { PatientDialog } from '../../components/patient-dialog/patient-dialog';
 export class Patients implements OnInit {
   constructor(
     private patientService: PatientData,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private _snackBar: MatSnackBar
   ) {}
 
   paginatedItems: any[] = [];
@@ -76,14 +78,24 @@ export class Patients implements OnInit {
       if (result) {
         this.patientService.createPatient(result).subscribe({
           next: (response) => {
-            console.log('Paciente criado com sucesso:', response);
+            this.showToast('Paciente cadastrado com sucesso!', 'success');
             this.loadPatientData();
           },
           error: (error) => {
-            console.error('Erro ao criar paciente:', error);
+            this.showToast('Erro ao cadastrar paciente!', 'error');
+            console.log('Erro ao criar paciente:', error);
           }
         });
       }
+    });
+  }
+
+  showToast(message: string, type: 'success' | 'error' = 'success') {
+    this._snackBar.open(message, 'Fechar', {
+      duration: 3000,
+      horizontalPosition: 'right', 
+      verticalPosition: 'top',
+      panelClass: type === 'success' ? 'toast-success' : 'toast-error'
     });
   }
 }

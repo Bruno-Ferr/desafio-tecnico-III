@@ -8,6 +8,7 @@ import { ExamDialog } from '../../components/exam-dialog/exam-dialog';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { ExamData } from '../../services/exam-data';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-exams',
@@ -31,7 +32,8 @@ export class Exams {
     private router: Router,
     private location: Location,
     private examsService: ExamData,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private _snackBar: MatSnackBar
   ) { }
 
   ngOnInit(): void {
@@ -74,16 +76,13 @@ export class Exams {
     }
   }
 
-  openNewExamDialog() {
-    console.log('Opening dialog with patient ID:', this.pacienteId);
-    
+  openNewExamDialog() {   
     if (!this.pacienteId) {
       console.error('Cannot open exam dialog: patient ID is null');
       return;
     }
     
     const dataToPass = { patientId: this.pacienteId };
-    console.log('Data being passed to dialog:', dataToPass);
     
     const dialogRef = this.dialog.open(ExamDialog, {
       width: '500px',
@@ -92,8 +91,34 @@ export class Exams {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.loadExamsData(this.pacienteId!);
+        const idempotencyKey = this.generateIdempotencyKey();
+        
+        this.examsService.createExam(result, idempotencyKey).subscribe({
+          next: () => {
+            this.showToast('Exame cadastrado com sucesso!', 'success');
+            this.loadExamsData(this.pacienteId!);
+          },
+          error: (error) => {
+            console.error('Erro após todas as tentativas:', error);
+            this.showToast('Erro ao cadastrar exame após várias tentativas.', 'error');
+          }
+        });
       }
+    });
+  }
+
+  generateIdempotencyKey(): string {
+    const timestamp = Date.now();
+    const random = Math.random().toString(36).substring(2, 15);
+    return `${this.pacienteId}-${timestamp}-${random}`;
+  }
+
+  showToast(message: string, type: 'success' | 'error' = 'success') {
+    this._snackBar.open(message, 'Fechar', {
+      duration: 3000,
+      horizontalPosition: 'right', 
+      verticalPosition: 'top',
+      panelClass: type === 'success' ? 'toast-success' : 'toast-error'
     });
   }
 

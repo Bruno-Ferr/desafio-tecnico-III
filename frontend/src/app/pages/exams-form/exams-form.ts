@@ -32,11 +32,9 @@ export class ExamsForm {
   constructor(private fb: FormBuilder) {}
 
   ngOnInit() {
-    console.log('Received patientId:', this.patientId);
     this.examForm = this.fb.group({
-      patientId: [this.patientId || '', Validators.required], // Preenche automaticamente com o ID do paciente
-      nome: ['', Validators.required],
-      cpf: ['', Validators.required]
+      patientId: [this.patientId || '', Validators.required], 
+      modality: ['', Validators.required]
     });
 
     if (this.initialExam) {

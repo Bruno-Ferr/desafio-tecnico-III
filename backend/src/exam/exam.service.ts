@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateExamDto } from './dto/create-exam.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
+import { DICOM } from '@prisma/client';
 
 @Injectable()
 export class ExamService {
@@ -12,6 +13,10 @@ export class ExamService {
       throw new Error('patientId é obrigatório para criar um exame');
     }
 
+    if (!createExamDto.modality) {
+      throw new Error('modality é obrigatório para criar um exame');
+    }
+
     const patient = await this.prisma.patient.findUnique({
       where: { id: createExamDto.patientId },
     });
@@ -20,6 +25,10 @@ export class ExamService {
       throw new Error(
         `Paciente com ID ${createExamDto.patientId} não encontrado.`,
       );
+    }
+
+    if (!this.isAvaliableModality(createExamDto.modality)) {
+      throw new Error(`Modalidade ${createExamDto.modality} não é suportada.`);
     }
 
     const existingExam = await this.prisma.exams.findUnique({
@@ -70,5 +79,21 @@ export class ExamService {
 
   findOne(id: number) {
     return `This action returns a #${id} exam`;
+  }
+
+  isAvaliableModality(modality: DICOM): boolean {
+    return [
+      'CR',
+      'CT',
+      'DX',
+      'MG',
+      'MR',
+      'NM',
+      'OT',
+      'PT',
+      'RF',
+      'US',
+      'XA',
+    ].includes(modality);
   }
 }

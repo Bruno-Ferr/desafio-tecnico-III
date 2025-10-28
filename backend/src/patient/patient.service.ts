@@ -7,6 +7,18 @@ export class PatientService {
   constructor(private readonly prisma: PrismaService) {}
 
   async create(createPatientDto: CreatePatientDto) {
+    if (!createPatientDto.name) {
+      throw new Error('Name cannot be empty');
+    }
+    if (!createPatientDto.cpf) {
+      throw new Error('CPF cannot be empty');
+    }
+
+    const existingPatient = await this.findOneByCPF(createPatientDto.cpf);
+    if (existingPatient) {
+      throw new Error('CPF já existe');
+    }
+
     return await this.prisma.patient.create({ data: createPatientDto });
   }
 
@@ -19,7 +31,9 @@ export class PatientService {
     return { items, totalCount };
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} patient`;
+  async findOneByCPF(cpf: string) {
+    return await this.prisma.patient.findUnique({
+      where: { cpf },
+    });
   }
 }

@@ -43,9 +43,7 @@ export class ExamDialog {
     private dialogRef: MatDialogRef<ExamDialog>,
     @Inject(MAT_DIALOG_DATA) public data: ExamDialogData | null
   ) {
-    console.log('Raw data received:', data);
     this.patientId = data?.patientId || '';
-    console.log('Patient ID set to:', this.patientId);
   }
   
 

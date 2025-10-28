@@ -2,3 +2,38 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+/* Toast/Snackbar Styles */
+.toast-success {
+  background-color: #4caf50 !important;
+  color: white !important;
+}
+
+.toast-success .mdc-snackbar__label,
+.toast-success .mat-mdc-snack-bar-label {
+  background-color: #4caf50 !important;
+  color: white !important;
+}
+
+.toast-success .mat-mdc-button,
+.toast-success .mdc-button {
+  background-color: #4caf50 !important;
+  color: white !important;
+}
+
+.toast-error {
+  background-color: #f44336 !important;
+  color: white !important;
+}
+
+.toast-error .mdc-snackbar__label,
+.toast-error .mat-mdc-snack-bar-label {
+  background-color: #f44336 !important;
+  color: white !important;
+}
+
+.toast-error .mat-mdc-button,
+.toast-error .mdc-button {
+  background-color: #f44336 !important;
+  color: white !important;
+}

@@ -1,19 +1,7 @@
+import { DICOM } from '@prisma/client';
+
 export class CreateExamDto {
   patientId: string;
-  modality: any;
+  modality: DICOM;
   date: Date;
-}
-
-enum DICOM {
-  CR,
-  CT,
-  DX,
-  MG,
-  MR,
-  NM,
-  OT,
-  PT,
-  RF,
-  US,
-  XA,
 }

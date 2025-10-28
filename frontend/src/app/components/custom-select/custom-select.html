@@ -1,0 +1,15 @@
+<div class="input-container" [formGroup]="form">
+  <label [for]="controlName">{{ label }}</label>
+  <select 
+    [id]="controlName"
+    [formControlName]="controlName"
+    [class.error]="hasError">
+    <option value="" disabled selected>{{ placeholder }}</option>
+    @for (option of options; track option.value) {
+      <option [value]="option.value">{{ option.label }}</option>
+    }
+  </select>
+  @if (hasError) {
+    <span class="error-message">{{ errorMessage }}</span>
+  }
+</div>

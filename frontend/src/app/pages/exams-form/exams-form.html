@@ -12,11 +12,13 @@
     [readonly]="true">
   </app-custom-input>
 
-  <app-custom-input
-    label="modalidade"
+  <app-custom-select
+    label="Modalidade"
     [form]="examForm"
-    controlName="modality">
-  </app-custom-input>
+    controlName="modality"
+    [options]="modalityOptions"
+    placeholder="Selecione a modalidade">
+  </app-custom-select>
   
   <div class="form-actions">
     <button type="submit" [disabled]="examForm.invalid">

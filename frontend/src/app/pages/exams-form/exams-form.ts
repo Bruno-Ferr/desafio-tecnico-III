@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CustomInput } from '../../components/custom-input/custom-input';
+import { CustomSelectComponent } from '../../components/custom-select/custom-select';
 
 export interface Exam {
   nome: string;
@@ -14,7 +15,8 @@ export interface Exam {
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    CustomInput
+    CustomInput,
+    CustomSelectComponent
   ],
   templateUrl: './exams-form.html',
   styleUrl: './exams-form.css',
@@ -28,6 +30,20 @@ export class ExamsForm {
   @Output() cancel = new EventEmitter<void>();
 
   examForm!: FormGroup;
+
+  modalityOptions = [
+    { value: 'CR', label: 'CR - Computed Radiography' },
+    { value: 'CT', label: 'CT - Computed Tomography' },
+    { value: 'DX', label: 'DX - Digital Radiography' },
+    { value: 'MG', label: 'MG - Mammography' },
+    { value: 'MR', label: 'MR - Magnetic Resonance' },
+    { value: 'NM', label: 'NM - Nuclear Medicine' },
+    { value: 'OT', label: 'OT - Other' },
+    { value: 'PT', label: 'PT - Positron Emission Tomography' },
+    { value: 'RF', label: 'RF - Radio Fluoroscopy' },
+    { value: 'US', label: 'US - Ultrasound' },
+    { value: 'XA', label: 'XA - X-Ray Angiography' },
+  ];
 
   constructor(private fb: FormBuilder) {}
 
